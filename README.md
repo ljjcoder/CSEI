@@ -1,5 +1,5 @@
 # CSEI
-Learning Intact Features by Erasing-Inpainting for Few-shot Classification
+Learning Intact Features by Erasing-Inpainting for Few-shot Classification, [here](https://www.aaai.org/AAAI21Papers/AAAI-540.LiJ.pdf)
 ## Introduction
 In this paper, we propose to learn intact features by erasing-inpainting for fewshot
 classification. Specifically, we argue that extracting intact features of target objects is more transferable, and then
