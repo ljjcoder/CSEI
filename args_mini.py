@@ -72,12 +72,12 @@ def argument_parser():
                         help='number of batches per epoch when training')
     parser.add_argument('--nTestNovel', type=int, default=15 * 5,
                         help='number of test examples for all the novel category')
-    parser.add_argument('--epoch_size', type=int, default=2000,
+    parser.add_argument('--epoch_size', type=int, default=600,
                         help='number of batches per epoch')
 
     parser.add_argument('--phase', default='test', type=str,
                         help='use test or val dataset to early stop')
-    parser.add_argument('--seed', type=int, default=1)
+    parser.add_argument('--seed', type=int, default=2333)
 
     return parser
 
