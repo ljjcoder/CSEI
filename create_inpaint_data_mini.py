@@ -313,15 +313,15 @@ transform_test = T.Compose([
             ])         
 def train(epoch,model_edge, model, model_tradclass,weight_softmax, criterion, optimizer, trainloader, learning_rate, use_gpu):
     
-    if not os.path.isdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_9"):
-        os.mkdir("/data4/lijunjie/tiered-imagenet-tools-master/tiered_imagenet/train_9")
-        os.mkdir("/data4/lijunjie/tiered-imagenet-tools-master/tiered_imagenet/train_10")
-        os.mkdir("/data4/lijunjie/tiered-imagenet-tools-master/tiered_imagenet/train_11")
-        os.mkdir("/data4/lijunjie/tiered-imagenet-tools-master/tiered_imagenet/train_12") 
-        os.mkdir("/data4/lijunjie/tiered-imagenet-tools-master/tiered_imagenet/train_13")
-        os.mkdir("/data4/lijunjie/tiered-imagenet-tools-master/tiered_imagenet/train_14")
-        os.mkdir("/data4/lijunjie/tiered-imagenet-tools-master/tiered_imagenet/train_15")
-        #os.mkdir("/data4/lijunjie/tiered-imagenet-tools-master/tiered_imagenet/train_8")         
+    if not os.path.isdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_1"):
+        os.mkdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_1")
+        os.mkdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_2")
+        os.mkdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_3")
+        os.mkdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_4") 
+        os.mkdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_5")
+        os.mkdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_6")
+        os.mkdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_7")
+        os.mkdir("/data4/lijunjie/mini-imagenet-tools/processed_images_84/train_8")         
     losses = AverageMeter()
     batch_time = AverageMeter()
     data_time = AverageMeter()
@@ -341,14 +341,14 @@ def train(epoch,model_edge, model, model_tradclass,weight_softmax, criterion, op
 
         for d in dirs:
             path=os.path.join(root, d)
-            path_1=path.replace('train','train_9')
-            path_2=path.replace('train','train_10')
-            path_3=path.replace('train','train_11')
-            path_4=path.replace('train','train_12')
-            path_5=path.replace('train','train_13')
-            path_6=path.replace('train','train_14')
-            path_7=path.replace('train','train_15')
-            #path_8=path.replace('train','train_16')            
+            path_1=path.replace('train','train_1')
+            path_2=path.replace('train','train_2')
+            path_3=path.replace('train','train_3')
+            path_4=path.replace('train','train_4')
+            path_5=path.replace('train','train_5')
+            path_6=path.replace('train','train_6')
+            path_7=path.replace('train','train_7')
+            path_8=path.replace('train','train_8')            
             if not os.path.isdir(path_1):            
                 os.mkdir(path_1)
                 os.mkdir(path_2)
@@ -366,7 +366,7 @@ def train(epoch,model_edge, model, model_tradclass,weight_softmax, criterion, op
             Paths.append(path_5)
             Paths.append(path_6)
             Paths.append(path_7)
-            #Paths.append(path_8)              
+            Paths.append(path_8)              
             for file in files:
                 images=[]
                 imgs_gray=[]
@@ -408,17 +408,17 @@ def train(epoch,model_edge, model, model_tradclass,weight_softmax, criterion, op
                 edges=[]
         #output_cam=[]
                 for i in range(feature.shape[0]):
-                    CAMs=returnCAM(feature_cpu[i], weight_softmax, [idx[i,8:15,0,0]],masks)
+                    CAMs=returnCAM(feature_cpu[i], weight_softmax, [idx[i,:8,0,0]],masks)
                     #for j in range(4):
                         #print(CAMs[j].shape,CAMs[j].max(),CAMs[j].min(),CAMs[j].sum())
                     #exit(0)
                     masks=CAMs
         #print(len(masks),masks[0].shape)
                 masks_tensor = torch.stack(masks, dim=0) 
-                Xt_masks = masks_tensor.reshape(1,1,7,1,84,84)#[:,:,0]
+                Xt_masks = masks_tensor.reshape(1,1,8,1,84,84)#[:,:,0]
                 Xt_img_ori_repeat=Xt_img_ori.reshape(1,1,1,3,84,84)
 
-                Xt_img_ori_repeat = Xt_img_ori_repeat.repeat(1,1,7,1,1,1)    
+                Xt_img_ori_repeat = Xt_img_ori_repeat.repeat(1,1,8,1,1,1)    
                 Xt_img_gray_repeat=imgs_gray.reshape(1,1,1,1,84,84)
 
                 Xt_img_gray_repeat = Xt_img_gray_repeat.repeat(1,1,7,1,1,1)          
@@ -443,14 +443,14 @@ def train(epoch,model_edge, model, model_tradclass,weight_softmax, criterion, op
         #exit(0)        
         #model_edge.test(Xt_img_ori,edge_sh,Xt_img_gray,Xt_masks)
                 with torch.no_grad():
-                    inpaint_img=model_edge.test(Xt_img_ori_repeat.reshape(7,3,84,84),edge_sh,Xt_img_gray_repeat.reshape(7,1,84,84),masks_tensor)
+                    inpaint_img=model_edge.test(Xt_img_ori_repeat.reshape(8,3,84,84),edge_sh,Xt_img_gray_repeat.reshape(8,1,84,84),masks_tensor)
                 inpaint_img_np=inpaint_img.detach().cpu().numpy()
                 Xt_img_ori_np=Xt_img_ori_repeat.detach().cpu().numpy()                
                 #print(inpaint_img_np.shape)
                 #exit(0)
-                for id in range(7):
+                for id in range(8):
                     images_temp_train1=inpaint_img_np[id,:,:]
-                    Xt_img_ori_repeat1=Xt_img_ori_np.reshape(7,3,84,84)[id,:,:]
+                    Xt_img_ori_repeat1=Xt_img_ori_np.reshape(8,3,84,84)[id,:,:]
                     print(Xt_img_ori_repeat1.shape)
             #images_temp_train=images_temp_train1*std+mean
                     images_ori_train=images_temp_train1.transpose((1,2,0))[:,:,::-1]
@@ -459,194 +459,8 @@ def train(epoch,model_edge, model, model_tradclass,weight_softmax, criterion, op
                     Xt_img_ori_repeat1=np.uint8(Xt_img_ori_repeat1*255)                    
                     cv2.imwrite(Paths[id]+'/'+file, images_ori_train)     
                     #cv2.imwrite('./result/inpaint_img/'+str(i)+'_'+str(id)+'_ori.jpg', Xt_img_ori_repeat1)                      
-    exit(0)                    
-                #exit(0)                
-            #print(path)
-            #print(path_1)
-            #print(path_2)
-            #print(path_3)
-            #print(path_4)            
-                #exit(0)            
-    for batch_idx, (images_train, labels_train,tpids,Xt_img_ori,Xt_img_gray,images_test, labels_test, pids) in enumerate(trainloader):
-    
-    #for batch_idx, (images_train, labels_train, images_test, labels_test, pids) in enumerate(trainloader):    
-        data_time.update(time.time() - end)
-        #print(Xt_img_ori.shape,Xt_img_gray.shape,images_train.shape,'lll')
-        edges=[]
-        if use_gpu:
-            images_train = images_train.cuda()
+                  
 
-        batch_size, num_train_examples, channels, height, width = images_train.size()
-        num_test_examples = images_test.size(1)
-        
-        labels_train_1hot = one_hot(labels_train).cuda()
-        labels_train_1hot_4 = one_hot(labels_train_4).cuda()        
-        #labels_train = labels_train.view(batch_size * num_train_examples)   
-        #print( labels_train)
-        #exit(0)        
-        labels_test_1hot = one_hot(labels_test).cuda()
-        labels_test_1hot_4 = one_hot(labels_test_4).cuda()
-        #print(labels_test_1hot_4.shape,labels_test_1hot.shape)        
-        #labels_test_1hot_4 = torch.cat((labels_test_1hot , labels_test_1hot_4), 1)
-        #print(labels_test_1hot.shape,labels_test_1hot_4.shape)
-        #exit(0)
-        with torch.no_grad():
-            ytest,feature= model_tradclass(images_train, images_train, labels_train_1hot, labels_test_1hot)
-        #print(ytest.shape)
-        #exit(0)
-        images_train=images_train.reshape(4,5,1,3,84,84)
-        #images_test=images_test.reshape(4,30,1,3,84,84)        
-        feature_cpu=feature.detach().cpu().numpy()
-        probs, idx = ytest.detach().sort(1, True)
-        probs = probs.cpu().numpy()
-        idx = idx.cpu().numpy() 
-        #print(pids)
-        #print(idx[:,0,0,0])
-        #print(idx.shape)
-        #exit(0)
-        #print(feature.shape)
-        #exit(0)
-        masks=[]
-        #output_cam=[]
-        for i in range(feature.shape[0]):
-            CAMs=returnCAM(feature_cpu[i], weight_softmax, [idx[i,:4,0,0]],masks)
-            masks=CAMs
-        #print(len(masks),masks[0].shape)
-        masks_tensor = torch.stack(masks, dim=0)
-        Xt_masks = masks_tensor.reshape(1,1,4,1,84,84)#[:,:,0]
-        Xt_img_ori_repeat=Xt_img_ori.reshape(1,1,1,3,84,84)
-
-        Xt_img_ori_repeat = Xt_img_ori_repeat.repeat(1,1,4,1,1,1)    
-        Xt_img_gray_repeat=Xt_img_gray.reshape(1,1,1,1,84,84)
-
-        Xt_img_gray_repeat = Xt_img_gray_repeat.repeat(1,1,4,1,1,1)          
-        #print(Xt_img_ori.shape,Xt_masks.shape)
-        #exit(0)
-        mask_numpy=np.uint8(Xt_masks.numpy()*255)
-        #print(mask_numpy.shape,Xt_img_gray_numpy.shape)
-        Xt_img_gray_numpy=np.uint8(Xt_img_gray.numpy()*255)
-        #print(Xt_img_gray_numpy.shape)
-        for i in range(1):
-            for j in range(1):
-                for k in range(4):
-                    edge_PIL=Image.fromarray(load_edge(Xt_img_gray_numpy[i,j,0], mask_numpy[i,j,k,0]))
-                    edges.append(Funljj.to_tensor(edge_PIL).float())        
-        edges = torch.stack(edges, dim=0) 
-        edge_sh=edges#.reshape(4,5,1,84,84)
-        #exit(0)        
-        #model_edge.test(Xt_img_ori,edge_sh,Xt_img_gray,Xt_masks)
-        with torch.no_grad():
-            inpaint_img=model_edge.test(Xt_img_ori_repeat.reshape(4,3,84,84),edge_sh,Xt_img_gray_repeat.reshape(4,1,84,84),masks_tensor)
-        inpaint_img_np=inpaint_img.detach().cpu().numpy()
-        for i in range(4):
-            images_temp_train1=inpaint_img_np[i,:,:].cpu().numpy()
-            #images_temp_train=images_temp_train1*std+mean
-            images_ori_train=images_temp_train1.transpose((1,2,0))[:,:,::-1]
-            images_ori_train=np.uint8(images_ori_train*255)                 
-            cv2.imwrite('./result/inpaint_img/'+str(i)+'_'+str(j)+'_'+str(labels_train_ex[i,j])+'.jpg', images_ori_train)            
-        exit(0)
-        inpaint_img_np=(inpaint_img_np-mean)/std
-        #support set
-        inpaint_tensor=torch.from_numpy(inpaint_img_np).cuda().reshape(4,5,4,3,84,84).float()        
-        #images_train=torch.cat((images_train, inpaint_tensor), 2).reshape(4,25,3,84,84)#images_train
-def test(model_edge, model, model_tradclass,weight_softmax, testloader, use_gpu):
-    accs = AverageMeter()
-    test_accuracies = []
-    std=np.expand_dims(np.array([0.229, 0.224, 0.225]),axis=1)
-    std=np.expand_dims(std,axis=2) 
-    mean=np.expand_dims(np.array([0.485, 0.456, 0.406]),axis=1)             
-    mean=np.expand_dims(mean,axis=2)     
-    model.eval()
-    model_tradclass.eval()
-    with torch.no_grad():
-        for batch_idx , (images_train, labels_train,Xt_img_ori,Xt_img_gray, images_test, labels_test) in enumerate(testloader):
-            if use_gpu:
-                images_train = images_train.cuda()
-                images_test = images_test.cuda()
-
-            end = time.time()
-            #print(images_train.shape,images_test.shape)
-            #exit(0)
-            batch_size, num_train_examples, channels, height, width = images_train.size()
-            num_test_examples = images_test.size(1)
-            labels_train_4 = labels_train.reshape(4,5,1)#[:,:,0]
-
-            labels_train_4 = labels_train_4.repeat(1,1,5).reshape(4,-1) 
-            labels_train_4=labels_train_4.cuda()           
-            labels_train_1hot = one_hot(labels_train).cuda()
-            labels_test_1hot = one_hot(labels_test).cuda()
-            labels_train_1hot_4 = one_hot(labels_train_4).cuda()            
-            ytest,feature= model_tradclass(images_train, images_train, labels_train_1hot, labels_test_1hot)
-        #print(ytest.shape)
-        #exit(0)
-            images_train=images_train.reshape(4,5,1,3,84,84)
-            feature_cpu=feature.detach().cpu().numpy()
-            probs, idx = ytest.detach().sort(1, True)
-            probs = probs.cpu().numpy()
-            idx = idx.cpu().numpy() 
-        #print(pids)
-        #print(idx[:,0,0,0])
-        #print(idx.shape)
-        #exit(0)
-        #print(feature.shape)
-        #exit(0)
-            masks=[]
-        #output_cam=[]
-            for i in range(feature.shape[0]):
-                CAMs=returnCAM(feature_cpu[i], weight_softmax, [idx[i,:4,0,0]],masks)
-                masks=CAMs
-        #print(len(masks),masks[0].shape)
-            masks_tensor = torch.stack(masks, dim=0)
-            Xt_masks = masks_tensor.reshape(4,5,4,1,84,84)#[:,:,0]
-            Xt_img_ori_repeat=Xt_img_ori.reshape(4,5,1,3,84,84)
-
-            Xt_img_ori_repeat = Xt_img_ori_repeat.repeat(1,1,4,1,1,1)    
-            Xt_img_gray_repeat=Xt_img_gray.reshape(4,5,1,1,84,84)
-
-            Xt_img_gray_repeat = Xt_img_gray_repeat.repeat(1,1,4,1,1,1)          
-            #print(Xt_img_ori.shape,Xt_masks.shape)
-        #exit(0)
-            edges=[]
-            mask_numpy=np.uint8(Xt_masks.numpy()*255)
-        #print(mask_numpy.shape,Xt_img_gray_numpy.shape)
-            Xt_img_gray_numpy=np.uint8(Xt_img_gray.numpy()*255)
-        #print(Xt_img_gray_numpy.shape)
-            for i in range(4):
-                for j in range(5):
-                    for k in range(4):
-                        edge_PIL=Image.fromarray(load_edge(Xt_img_gray_numpy[i,j,0], mask_numpy[i,j,k,0]))
-                        edges.append(Funljj.to_tensor(edge_PIL).float())        
-            edges = torch.stack(edges, dim=0) 
-            edge_sh=edges#.reshape(4,5,1,84,84)
-        #exit(0)        
-        #model_edge.test(Xt_img_ori,edge_sh,Xt_img_gray,Xt_masks)
-            inpaint_img=model_edge.test(Xt_img_ori_repeat.reshape(80,3,84,84),edge_sh,Xt_img_gray_repeat.reshape(80,1,84,84),masks_tensor)
-            inpaint_img_np=inpaint_img.detach().cpu().numpy()
-            inpaint_img_np=(inpaint_img_np-mean)/std
-            inpaint_tensor=torch.from_numpy(inpaint_img_np).cuda().reshape(4,5,4,3,84,84).float()
-            images_train=torch.cat((images_train, inpaint_tensor), 2).reshape(4,25,3,84,84)
-            cls_scores = model(images_train, images_test, labels_train_1hot_4, labels_test_1hot)
-            cls_scores = cls_scores.view(batch_size * num_test_examples, -1)
-            labels_test = labels_test.view(batch_size * num_test_examples)
-
-            _, preds = torch.max(cls_scores.detach().cpu(), 1)
-            acc = (torch.sum(preds == labels_test.detach().cpu()).float()) / labels_test.size(0)
-            accs.update(acc.item(), labels_test.size(0))
-
-            gt = (preds == labels_test.detach().cpu()).float()
-            gt = gt.view(batch_size, num_test_examples).numpy() #[b, n]
-            acc = np.sum(gt, 1) / num_test_examples
-            acc = np.reshape(acc, (batch_size))
-            test_accuracies.append(acc)
-
-    accuracy = accs.avg
-    test_accuracies = np.array(test_accuracies)
-    test_accuracies = np.reshape(test_accuracies, -1)
-    stds = np.std(test_accuracies, 0)
-    ci95 = 1.96 * stds / np.sqrt(args.epoch_size)
-    print('Accuracy: {:.2%}, std: :{:.2%}'.format(accuracy, ci95))
-
-    return accuracy
 
 
 if __name__ == '__main__':
