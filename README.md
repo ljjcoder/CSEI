@@ -9,5 +9,4 @@ by our proposed method can contain more complete information of target objects. 
 the current task. 
 
 ## Code
-
-Our code will be released soon.
+Train: sh train.sh
