@@ -10,6 +10,9 @@ and inpainting, and then uses them to augment the query set of the same task. Co
 by our proposed method can contain more complete information of target objects. In addition, we propose taskspecific feature modulation to make the features adaptive to
 the current task.
 
+## Dataset
+
+[Mini-ImageNet](https://drive.google.com/file/d/1KfrNQgOLKLjaD0h1U6dfkmtaobVw2Qkt/view?usp=sharing)
 ## Our framework
 
 <img src="./fig/framework.png" width="100%" alt="framework">
