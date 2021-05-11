@@ -354,6 +354,10 @@ def train(epoch,model_edge, model, model_tradclass,weight_softmax, criterion, op
                 os.mkdir(path_2)
                 os.mkdir(path_3)
                 os.mkdir(path_4)
+                os.mkdir(path_5)
+                os.mkdir(path_6)
+                os.mkdir(path_7)
+                os.mkdir(path_8)               
             files = os.listdir(path) 
             #images=[]
             #imgs_gray=[]
