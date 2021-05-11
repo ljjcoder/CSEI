@@ -17,5 +17,9 @@ the current task.
 ## Acknowledgments
 
 This code is based on the implementations of [**Cross Attention Network for Few-shot Classification**](https://github.com/blue-blue272/fewshot-CAN).
-## Code
-Train: sh train.sh
+
+### Training
+
+```
+sh train.sh
+```
