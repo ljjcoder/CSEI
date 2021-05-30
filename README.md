@@ -32,6 +32,7 @@ sh train.sh
 @article{li2021learning,
   title={Learning Intact Features by Erasing-Inpainting for Few-shot Classification},
   author={Li, Junjie and Wang, Zilei and Hu, Xiaoming},
+  booktitle = {AAAI}
   year={2021}
 }
 ```
