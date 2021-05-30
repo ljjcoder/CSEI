@@ -26,3 +26,12 @@ This code is based on the implementations of [**Cross Attention Network for Few-
 ```
 sh train.sh
 ```
+### If you use this code/method or find it helpful, please cite:
+
+```
+@article{li2021learning,
+  title={Learning Intact Features by Erasing-Inpainting for Few-shot Classification},
+  author={Li, Junjie and Wang, Zilei and Hu, Xiaoming},
+  year={2021}
+}
+```
